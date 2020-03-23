@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # importa librerias necesarias para el proyecto 
 
 import time
@@ -22,18 +23,18 @@ args = sys.argv
 #################################################################################
 #               BLOQUE PRUEBAS LOCALES EN EL AMBIENTE VIRTUAL                   #
 #args = ['/path/Config_nyse_2012.csv','partition_date','current_date']          #
-#args = ['/path/Config_nyse_2012_ts.csv']                                       #
+#args = ['/path/Config_test.csv']                                               #
 #################################################################################
 
 # Evalua la cantidad de parametros que recibe y le asigna valor a sus variables correspondientes
 
 countArgs=''
 for i in range(0,len(args)):
-    countArgs = 0+i
+  countArgs = 0+i
 if countArgs == 1:
-    configFile = args[1]
+  configFile = args[1]
 else:
-    configFile, newFields, newFieldsValues = args[1] , args[2], args[3]
+  configFile, newFields, newFieldsValues = args[1] , args[2], args[3]
 
 #################################################################################
 #               BLOQUE PRUEBAS LOCALES EN EL AMBIENTE VIRTUAL                   #
@@ -97,7 +98,7 @@ except:
     None
 
 try:
-    timestampArray = timestampArray.rsplit(sepVariable)
+    timestampArray = timestampType.rsplit(sepVariable)
 except:
     None
 
@@ -118,8 +119,11 @@ if fwf == 'TRUE':
   fwfLenghts = list(map(int, fwfLenghts))
   columnNames = columnNames.split(sepVariable)
   df_final_pd = pd.read_fwf(sourcePath, widths=fwfLenghts)
-  df_final_pd.columns = columnNames
-  df_final = spark.createDataFrame(df_final_pd)
+  if header == 'False':
+    df_final_pd.columns = columnNames
+    df_final = spark.createDataFrame(df_final_pd)
+  else:
+    df_final = spark.createDataFrame(df_final_pd)
   print('Levanta archivo fwf Origen')
   print('- '+ sourcePath)
   print('--------------------------------------------------------')
@@ -137,8 +141,6 @@ try:
         df_final = df_final.withColumn(dateArray[j], F.to_date(col(dateArray[j]),dateFormat))
         print('- Campo "'+ dateArray[j] +'" CASTEADO a Date')
 except:
-    for j in range(0,len(dateArray)):
-      df_final = df_final.withColumn(dateArray[j], to_date(dateArray[j], dateFormat))
     print('- No existen campos en formato Date en el DataFrame')
     None
 print('--------------------------------------------------------')
