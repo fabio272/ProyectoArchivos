@@ -1,0 +1,21 @@
+CLAVE|VALOR
+sourcePath|/AGREGAR/PATH/CORRESPONDIENTE/nyse_2012_ts.csv
+finalPath|/AGREGAR/PATH/CORRESPONDIENTE/nyse_2012_ts
+sep|
+header|False
+sepVariable|;
+sepArg|;
+fwf|TRUE
+fwfLenghts|6;24;7;7;7;7;7
+columnNames|stock;transaction_date;open_price;close_price;max_price;min_price;variation
+timestampType|transaction_date
+timestampFormat|dd/MM/yyyy HH:mm:ss.SSS
+dateType|
+dateFormat|
+floatType|open_price;close_price;max_price;min_price;variation
+intType|
+writeFormat|parquet
+writeMode|overwrite
+partition|stock
+defaultPartition|
+typePartition|string
